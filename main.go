@@ -206,14 +206,17 @@ func (c *bunnyNetDNSSolver) CleanUp(ch *v1alpha1.ChallengeRequest) error {
 	// get matching record id
 	recordID := 0
 	hostname := strings.TrimSuffix(strings.TrimSuffix(ch.ResolvedFQDN, ch.ResolvedZone), ".")
+	fmt.Printf("Looking for: %d %s %s\n", 3, hostname, ch.Key)
 	for _, record := range zoneData.Items[0].Records {
-		if record.Type == 3 && record.Name == hostname {
+		fmt.Printf("%d %s %s\n", record.Type, record.Name, record.Value)
+		if record.Type == 3 && record.Name == hostname && record.Value == ch.Key {
 			recordID = record.ID
 			break
 		}
 	}
 	if recordID == 0 {
-		return fmt.Errorf("record not found")
+		// Nothing to delete
+		return nil
 	}
 
 	url := fmt.Sprintf("%s/dnszone/%d/records/%d", bunnyAPIBase, zoneData.Items[0].ID, recordID)

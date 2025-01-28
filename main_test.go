@@ -22,7 +22,8 @@ func TestRunsSuite(t *testing.T) {
 		acmetest.SetResolvedZone(zone),
 		acmetest.SetAllowAmbientCredentials(false),
 		acmetest.SetManifestPath("testdata/my-custom-solver"),
-		acmetest.SetDNSServer("192.168.1.1:53"),
+		acmetest.SetDNSServer("1.1.1.1:53"),
+		acmetest.SetStrict(true),
 		// acmetest.SetBinariesPath("_test/kubebuilder/bin"),
 	)
 	// solver := example.New("59351")
@@ -33,7 +34,7 @@ func TestRunsSuite(t *testing.T) {
 	// 	acmetest.SetUseAuthoritative(false),
 	// )
 	//need to uncomment and  RunConformance delete runBasic and runExtended once https://github.com/cert-manager/cert-manager/pull/4835 is merged
-	//fixture.RunConformance(t)
+	// fixture.RunConformance(t)
 	fixture.RunBasic(t)
 	fixture.RunExtended(t)
 
